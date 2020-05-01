@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+
+    <context:component-scan base-package="scheduler"/>
+    <bean id="myjob" class="scheduler.MyJob"/>
+
+<!--    指定需要定时运行的方法-->
+    <bean id="myJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="myjob"/>
+        <property name="targetMethod" value="mockCallService"/>
+    </bean>
+
+<!--    按指定频率执行-->
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="myJobDetail"/>
+        <property name="startDelay" value="0"/>
+        <property name="repeatInterval" value="2000"/>
+    </bean>
+
+<!--&lt;!&ndash;    按指定时间执行&ndash;&gt;-->
+<!--    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+<!--        <property name="jobDetail" ref="myJobDetail"/>-->
+<!--        <property name="cronExpression" value="0 26,27 16 * * ?"/>-->
+<!--    </bean>-->
+
+<!--    调度器设置-->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="simpleTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
