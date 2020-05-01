@@ -16,6 +16,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'org.springframework:spring-context-support:5.2.1.RELEASE',
             'org.quartz-scheduler:quartz:2.3.0',
-            'org.springframework.boot:spring-boot-starter-quartz:2.2.6.RELEASE'
+            'org.springframework.boot:spring-boot-starter-quartz:2.2.6.RELEASE',
+            'org.springframework:spring-tx:5.2.1.RELEASE'
 }
 
